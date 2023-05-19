@@ -5,16 +5,21 @@
 
 
 """
-This is a password manager app, now this app will store the  passwords and then it will send the password to 
-the drive.
-
-The program will consists of tkinter window which will contain a GUI which will first ask the user to fill some information 
-like user, google drive mail and so on.
-
-Then the program will be such that if the person will ever open the program again it will remember those previously 
-prompted messages and do the rest.
-
+This will be a GUI based application, the pop up will open and 
+check if internet is present. If yes then passwords will be 
+uploaded on the drive linked, else it will be saved locally.
 """
 
+from tkinter import *
 
- 
+def main():
+    window = Tk()
+    window.geometry("600x600")
+    window.title("Cyfrin")
+    userName = Label(window, text="User Name").pack(side=LEFT, padx=20, pady=20)
+    userEntry = Entry(window, bd=5).pack(side=RIGHT, padx = 50, pady=50)
+    window.mainloop()
+
+if __name__=="__main__":
+    main()
+
