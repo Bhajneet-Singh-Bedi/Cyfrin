@@ -13,20 +13,18 @@ uploaded on the drive linked, else it will be saved locally.
 from tkinter import *
 import tkinter as tk
 
-def openNewWindow():
-    userName.destroy()
-    userNameEntry.destroy()
-    userPass.destroy()
-    userPassEntry.destroy()
-    btn.destroy()
-    
+btnn="False"
+ctr=0
+
 def main():
-    global btn, userName, userNameEntry, userPass, userPassEntry
+    # Making every content global so that it can be accessed later on in every function.
+    global btn, userName, userNameEntry, userPass, userPassEntry, ctr, userps
     window = Tk()
     window.geometry("600x600")
     frame=Frame(window)
     frame.place(relx=0.5)
     window.title("Cyfrin")
+    
     # userName = Label(window, text="User Name").grid(row=0, column=0)
     # userEntry = Entry(window, bd=5).grid(row=0, column=1)
     userName = Label(window, text="User Name")
@@ -44,13 +42,29 @@ def main():
     btn = Button(window,
              text ="Click to open a new window",
              command = openNewWindow)
+    
+    # Write the content here which has to be displayed later on.
+    userps = Label(window, text="lala")
+    
     btn.pack()
 
-    
     window.mainloop()
+
+
+def openNewWindow():
+    # Destroying first screen objects.
+    userName.destroy()
+    userNameEntry.destroy()
+    userPass.destroy()
+    userPassEntry.destroy()
+    btn.destroy()
+
+    # Displaying second screen objects.
+    userps.pack()
+
+
 
 
 
 if __name__=="__main__":
     main()
-
