@@ -18,7 +18,7 @@ ctr=0
 
 def main():
     # Making every content global so that it can be accessed later on in every function.
-    global btn, userName, userNameEntry, userPass, userPassEntry, ctr, userps
+    global btn, userName, userNameEntry, userPass, userPassEntry, ctr, addps, getPs
     window = Tk()
     window.geometry("600x600")
     frame=Frame(window)
@@ -40,18 +40,20 @@ def main():
     userPassEntry.place(relx=.6, rely=.5,anchor= CENTER)
     
     btn = Button(window,
-             text ="Click to open a new window",
-             command = openNewWindow)
+             text ="Submit",
+             command = Page1)
+    btn.place(relx=.5, rely=.6,anchor= CENTER)
     
-    # Write the content here which has to be displayed later on.
-    userps = Label(window, text="lala")
-    
-    btn.pack()
+    # This is the page 2 content.
+    addps = Button(window, text="Add new password", command=addPass)
+    getPs = Button(window, text="See Saved Password", command = getPass)
+
+
 
     window.mainloop()
 
 
-def openNewWindow():
+def Page1():
     # Destroying first screen objects.
     userName.destroy()
     userNameEntry.destroy()
@@ -60,11 +62,16 @@ def openNewWindow():
     btn.destroy()
 
     # Displaying second screen objects.
-    userps.pack()
+    addps.place(relx=.5, rely=.4,anchor= CENTER)
+    getPs.place(relx=.5, rely=.5,anchor= CENTER)
 
 
+def getPass():
+    pass
 
 
+def addPass():
+    pass
 
 if __name__=="__main__":
     main()
