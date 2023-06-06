@@ -12,13 +12,11 @@ uploaded on the drive linked, else it will be saved locally.
 
 from tkinter import *
 import tkinter as tk
-import tkinter.messagebox
-
-ctr=0
+import os
 
 def main():
     # Making every content global so that it can be accessed later on in every function.
-    global btn, userName, userNameEntry, userPass, userPassEntry, ctr, addps, getPs, btn1
+    global window, btn, userName, userNameEntry, userPass, userPassEntry, addps,                                                                getPs, btn1
     window = Tk()
     window.geometry("600x600")
     frame=Frame(window)
@@ -35,9 +33,9 @@ def main():
     userPass = Label(window, text="Password")
     userPass.place(relx=.4, rely=.5,anchor= CENTER)
     userPassEntry = Entry(window, bd=5)
-    
     userPassEntry.place(relx=.6, rely=.5,anchor= CENTER)
     
+
     btn = Button(window,text ="Submit",command = Page1)
     btn.place(relx=.5, rely=.6,anchor= CENTER)
     btn1 = Button(window, text='Back', command=back2one)
@@ -45,8 +43,10 @@ def main():
     addps = Button(window, text="Add new password", command=addPass)
     getPs = Button(window, text="See Saved Password", command = getPass)
     btn1 = Button(window, text='Back', command=back2one)
-
-
+    # print(os.getcwd())
+    # os.chdir('C:')
+    # print(os.getcwd())
+    # print(os.listdir())
     window.mainloop()
 
 
@@ -70,12 +70,49 @@ def Page1():
     else:
         tk.messagebox.showinfo("Error", "The username or password is incorrect!!")
 
+
+def addPass():
+    # This function includes add pass functionality.
+    # delete all content
+    global addName, addNameEntry, addPassword, addPassEntry, submitAdd
+    addps.destroy()
+    getPs.destroy()
+    # Add the website link
+    addName = Label(window, text="Add web link")
+    addName.place(relx=.4, rely=.4,anchor= CENTER)
+    addNameEntry = Entry(window, bd=5)
+    addNameEntry.place(relx=.6, rely=.4,anchor= CENTER)
+
+    # Add the password
+    addPassword = Label(window, text="Enter Password")
+    addPassword.place(relx=.4, rely=.5,anchor= CENTER)
+    addPassEntry = Entry(window, bd=5)
+    addPassEntry.place(relx=.6, rely=.5,anchor= CENTER)
+
+
+    # Submit button to add password
+    submitAdd = Button(window, text='Add Password', command=addpsButton)
+    submitAdd.place(relx=.5, rely=.6,anchor= CENTER)
+
+
+
+def addpsButton():
+    addName.destroy()
+    addNameEntry.destroy()
+    addPassword.destroy()
+    addPassEntry.destroy()
+    submitAdd.destroy()
+    Label(window, text="Password successfully added", font=20).place(relx=0.5, rely=0.5, anchor=CENTER)
+    quitButton = Button(window, text="Quit", command=quitWindow)
+    quitButton.place(relx=.5, rely=.6,anchor= CENTER)
+
+def quitWindow():
+    window.destroy()
+
 def getPass():
     pass
 
 
-def addPass():
-    pass
 
 
 def back2one():
