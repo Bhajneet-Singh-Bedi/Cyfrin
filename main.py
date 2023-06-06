@@ -13,6 +13,7 @@ uploaded on the drive linked, else it will be saved locally.
 from tkinter import *
 import tkinter as tk
 import os
+import pandas as pd
 
 def main():
     # Making every content global so that it can be accessed later on in every function.
@@ -56,7 +57,7 @@ def Page1():
     usPaEn = userPassEntry.get()
 
     # checking username and pass
-    if (usNaEn == 'bhajneet' and usPaEn == '123456'):
+    if (usNaEn == 'b' and usPaEn == '1'):
         # Destroying first screen objects.
         userName.destroy()
         userNameEntry.destroy()
@@ -110,7 +111,19 @@ def quitWindow():
     window.destroy()
 
 def getPass():
-    pass
+    # os.chdir("C:")
+    if not os.path.isfile('cyfrin.csv'):
+        df=pd.DataFrame(columns=["Web Link", "Passwords"])
+        df.to_csv('cyfrin.csv', index=False)
+    else:
+        df=pd.read_csv('cyfrin.csv')
+            # writer = csv.writer(file)
+            # field = ["name", "age", "country"]
+            
+            # writer.writerow(field)
+            # writer.writerow(["Oladele Damilola", "40", "Nigeria"])
+            # writer.writerow(["Alina Hricko", "23", "Ukraine"])
+            # writer.writerow(["Isabel Walter", "50", "United Kingdom"])
 
 
 
@@ -122,6 +135,7 @@ def back2one():
     btn1.destroy()
     """
     pass
+
 
 
 
