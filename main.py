@@ -14,7 +14,7 @@ from tkinter import *
 import tkinter as tk
 import os
 import pandas as pd
-
+import hashlib
 def main():
     # Making every content global so that it can be accessed later on in every function.
     global window, btn, userName, userNameEntry, userPass, userPassEntry, addps, getPs, addName, addNameEntry, addPassword, addPassEntry, submitAdd
@@ -48,7 +48,6 @@ def main():
     addNameEntry = Entry(window, bd=5)
     addPassword = Label(window, text="Enter Password")
     addPassEntry = Entry(window, bd=5)
-    addPassEntry = Entry(window, bd=5)
     submitAdd = Button(window, text='Add Password', command=addpsButton)
     # print(os.getcwd())
     # os.chdir('C:')
@@ -61,7 +60,7 @@ def Page1():
     # Getting username and pass.
     usNaEn = userNameEntry.get()
     usPaEn = userPassEntry.get()
-
+    
     # checking username and pass
     if (usNaEn == 'b' and usPaEn == '1'):
         # Destroying first screen objects.
@@ -84,25 +83,28 @@ def addPass():
     addps.destroy()
     getPs.destroy()
     # Add the website link
-    
     addName.place(relx=.4, rely=.4,anchor= CENTER)
-    
     addNameEntry.place(relx=.6, rely=.4,anchor= CENTER)
 
     # Add the password
-    
     addPassword.place(relx=.4, rely=.5,anchor= CENTER)
-    
     addPassEntry.place(relx=.6, rely=.5,anchor= CENTER)
 
-
     # Submit button to add password
-    
     submitAdd.place(relx=.5, rely=.6,anchor= CENTER)
 
 
 
+
 def addpsButton():
+    # Encrypting
+    webLink = addNameEntry.get()
+    webPassword = addPassEntry.get()
+    encWebLink = encrypted(webLink)
+    encWebPassword = encrypted(webPassword)
+
+    print(encWebLink, encWebPassword)
+    # Destroying
     addName.destroy()
     addNameEntry.destroy()
     addPassword.destroy()
@@ -111,6 +113,13 @@ def addpsButton():
     Label(window, text="Password successfully added", font=20).place(relx=0.5, rely=0.5, anchor=CENTER)
     quitButton = Button(window, text="Quit", command=quitWindow)
     quitButton.place(relx=.5, rely=.6,anchor= CENTER)
+
+
+def encrypted(message):
+    sha256 = hashlib.sha256()
+    sha256.update(message.encode('utf-8'))
+    encrypted_message = sha256.hexdigest()
+    return encrypted_message
 
 def quitWindow():
     window.destroy()
@@ -131,15 +140,6 @@ def getPass():
             # writer.writerow(["Isabel Walter", "50", "United Kingdom"])
 
 
-
-
-def back2one():
-    """"
-    addps.destroy()
-    getPs.destroy()
-    btn1.destroy()
-    """
-    pass
 
 
 
