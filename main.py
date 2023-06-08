@@ -17,7 +17,7 @@ import pandas as pd
 
 def main():
     # Making every content global so that it can be accessed later on in every function.
-    global window, btn, userName, userNameEntry, userPass, userPassEntry, addps,                                                                getPs, btn1
+    global window, btn, userName, userNameEntry, userPass, userPassEntry, addps, getPs, addName, addNameEntry, addPassword, addPassEntry, submitAdd
     window = Tk()
     window.geometry("600x600")
     frame=Frame(window)
@@ -39,11 +39,17 @@ def main():
 
     btn = Button(window,text ="Submit",command = Page1)
     btn.place(relx=.5, rely=.6,anchor= CENTER)
-    btn1 = Button(window, text='Back', command=back2one)
     # This is the page 2 content.
     addps = Button(window, text="Add new password", command=addPass)
     getPs = Button(window, text="See Saved Password", command = getPass)
-    btn1 = Button(window, text='Back', command=back2one)
+
+    ######### Add pass content #########
+    addName = Label(window, text="Add web link")
+    addNameEntry = Entry(window, bd=5)
+    addPassword = Label(window, text="Enter Password")
+    addPassEntry = Entry(window, bd=5)
+    addPassEntry = Entry(window, bd=5)
+    submitAdd = Button(window, text='Add Password', command=addpsButton)
     # print(os.getcwd())
     # os.chdir('C:')
     # print(os.getcwd())
@@ -75,24 +81,23 @@ def Page1():
 def addPass():
     # This function includes add pass functionality.
     # delete all content
-    global addName, addNameEntry, addPassword, addPassEntry, submitAdd
     addps.destroy()
     getPs.destroy()
     # Add the website link
-    addName = Label(window, text="Add web link")
+    
     addName.place(relx=.4, rely=.4,anchor= CENTER)
-    addNameEntry = Entry(window, bd=5)
+    
     addNameEntry.place(relx=.6, rely=.4,anchor= CENTER)
 
     # Add the password
-    addPassword = Label(window, text="Enter Password")
+    
     addPassword.place(relx=.4, rely=.5,anchor= CENTER)
-    addPassEntry = Entry(window, bd=5)
+    
     addPassEntry.place(relx=.6, rely=.5,anchor= CENTER)
 
 
     # Submit button to add password
-    submitAdd = Button(window, text='Add Password', command=addpsButton)
+    
     submitAdd.place(relx=.5, rely=.6,anchor= CENTER)
 
 
