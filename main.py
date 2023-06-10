@@ -58,6 +58,8 @@ def main():
     secretPass = Label(window, text="Your Secret Password")
     secretPassEntry = Entry(window, bd=5)
     submitAdd = Button(window, text='Add Password', command=addpsButton)
+
+    
     # print(os.getcwd())
     # os.chdir('C:')
     # print(os.getcwd())
@@ -86,6 +88,26 @@ def Page1():
         tk.messagebox.showinfo("Error", "The username or password is incorrect!!")
 
 
+    # Creating a directory for user's info and weblink and passwords directory.
+    # os.chdir("C:")
+
+    # os.mkdir(usNaEn)
+    # os.chdir(usNaEn)
+    # print(os.getcwd())
+    # Main folder
+    if not os.path.isdir('Cyfrin'):
+        os.mkdir('Cyfrin')
+    os.chdir('Cyfrin')
+    # Usernames and password file
+    if not os.path.isfile('Username.csv'):
+        f = open('username.csv','w')
+        f.close()
+    
+    if not os.path.isfile(usNaEn+'.csv'):
+        f = open(usNaEn+'.csv','w')
+        f.close()
+
+
 def addPass():
     # This function includes add pass functionality.
     # delete all content
@@ -105,6 +127,8 @@ def addPass():
 
     # Submit button to add password
     submitAdd.place(relx=.5, rely=.7,anchor= CENTER)
+
+
 
 
 
@@ -167,12 +191,14 @@ def quitWindow():
     window.destroy()
 
 def getPass():
+    pass
     # os.chdir("C:")
-    if not os.path.isfile('cyfrin.csv'):
-        df=pd.DataFrame(columns=["Web Link", "Passwords"])
-        df.to_csv('cyfrin.csv', index=False)
-    else:
-        df=pd.read_csv('cyfrin.csv')
+    # if not os.path.isfile('cyfrin.csv'):
+    #     df=pd.DataFrame(columns=["Web Link", "Passwords"])
+    #     df.to_csv('cyfrin.csv', index=False)
+    # else:
+    #     df=pd.read_csv('cyfrin.csv')
+    #     print(df.head())
             # writer = csv.writer(file)
             # field = ["name", "age", "country"]
             
