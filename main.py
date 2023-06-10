@@ -13,11 +13,18 @@ uploaded on the drive linked, else it will be saved locally.
 from tkinter import *
 import tkinter as tk
 import os
+import base64
 import pandas as pd
-import hashlib
+from cryptography.fernet import Fernet
+from cryptography.hazmat.primitives import hashes
+from cryptography.hazmat.backends import default_backend
+from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
+# from cryptography.hazmat.primitives.kdf.pbkdf2.PBKDF2HMAC import derive
+
+
 def main():
     # Making every content global so that it can be accessed later on in every function.
-    global window, btn, userName, userNameEntry, userPass, userPassEntry, addps, getPs, addName, addNameEntry, addPassword, addPassEntry, submitAdd
+    global window, btn, userName, userNameEntry, userPass, userPassEntry, addps, getPs, addName, addNameEntry, addPassword, addPassEntry, secretPass, secretPassEntry, submitAdd
     window = Tk()
     window.geometry("600x600")
     frame=Frame(window)
@@ -48,6 +55,8 @@ def main():
     addNameEntry = Entry(window, bd=5)
     addPassword = Label(window, text="Enter Password")
     addPassEntry = Entry(window, bd=5)
+    secretPass = Label(window, text="Your Secret Password")
+    secretPassEntry = Entry(window, bd=5)
     submitAdd = Button(window, text='Add Password', command=addpsButton)
     # print(os.getcwd())
     # os.chdir('C:')
@@ -83,15 +92,19 @@ def addPass():
     addps.destroy()
     getPs.destroy()
     # Add the website link
-    addName.place(relx=.4, rely=.4,anchor= CENTER)
+    addName.place(relx=.408, rely=.4,anchor= CENTER)
     addNameEntry.place(relx=.6, rely=.4,anchor= CENTER)
 
     # Add the password
     addPassword.place(relx=.4, rely=.5,anchor= CENTER)
     addPassEntry.place(relx=.6, rely=.5,anchor= CENTER)
 
+    # Add secret Password
+    secretPass.place(relx=.37, rely=.6,anchor= CENTER)
+    secretPassEntry.place(relx=.6, rely=.6,anchor= CENTER)
+
     # Submit button to add password
-    submitAdd.place(relx=.5, rely=.6,anchor= CENTER)
+    submitAdd.place(relx=.5, rely=.7,anchor= CENTER)
 
 
 
@@ -100,26 +113,55 @@ def addpsButton():
     # Encrypting
     webLink = addNameEntry.get()
     webPassword = addPassEntry.get()
-    encWebLink = encrypted(webLink)
-    encWebPassword = encrypted(webPassword)
+    secPass = secretPassEntry.get()
 
-    print(encWebLink, encWebPassword)
+    encWebLink = encrypt(webLink, secPass)
+    encWebPassword = encrypt(webPassword, secPass)
+    print(encWebLink,"\t",encWebPassword)
+    
+    print(decrypt(encWebLink,secPass),"\t",decrypt(encWebPassword,secPass))
     # Destroying
     addName.destroy()
     addNameEntry.destroy()
     addPassword.destroy()
     addPassEntry.destroy()
+    secretPass.destroy()
+    secretPassEntry.destroy()
     submitAdd.destroy()
     Label(window, text="Password successfully added", font=20).place(relx=0.5, rely=0.5, anchor=CENTER)
     quitButton = Button(window, text="Quit", command=quitWindow)
     quitButton.place(relx=.5, rely=.6,anchor= CENTER)
 
 
-def encrypted(message):
-    sha256 = hashlib.sha256()
-    sha256.update(message.encode('utf-8'))
-    encrypted_message = sha256.hexdigest()
-    return encrypted_message
+def encrypt(message, password):
+    salt = b'\x9d\xae\xd7\xaa\xc9\x1eG\xa3B\xa8\xeb\xa0\xf8\xed'
+    kdf = PBKDF2HMAC(
+        algorithm=hashes.SHA256(),
+        length=32,
+        salt=salt,
+        iterations=100000,
+        backend=default_backend()
+    )
+    key = base64.urlsafe_b64encode(kdf.derive(password.encode()))
+    cipher_suite = Fernet(key)
+    cipher_text = cipher_suite.encrypt(message.encode())
+    return cipher_text
+
+
+def decrypt(cipher_text, password):
+    salt = b'\x9d\xae\xd7\xaa\xc9\x1eG\xa3B\xa8\xeb\xa0\xf8\xed'
+    kdf = PBKDF2HMAC(
+        algorithm=hashes.SHA256(),
+        length=32,
+        salt=salt,
+        iterations=100000,
+        backend=default_backend()
+    )
+    key = base64.urlsafe_b64encode(kdf.derive(password.encode()))
+    cipher_suite = Fernet(key)
+    plaintext = cipher_suite.decrypt(cipher_text)
+    return plaintext.decode()
+
 
 def quitWindow():
     window.destroy()
