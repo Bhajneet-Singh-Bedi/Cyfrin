@@ -117,9 +117,9 @@ def addpsButton():
 
     encWebLink = encrypt(webLink, secPass)
     encWebPassword = encrypt(webPassword, secPass)
-    print(encWebLink,"\t",encWebPassword)
+    # print(encWebLink,"\t",encWebPassword)
     
-    print(decrypt(encWebLink,secPass),"\t",decrypt(encWebPassword,secPass))
+    # print(decrypt(encWebLink,secPass),"\t",decrypt(encWebPassword,secPass))
     # Destroying
     addName.destroy()
     addNameEntry.destroy()
