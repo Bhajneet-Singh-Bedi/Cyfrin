@@ -10,11 +10,11 @@ check if internet is present. If yes then passwords will be
 uploaded on the drive linked, else it will be saved locally.
 """
 
-from tkinter import *
-import tkinter as tk
 import os
 import base64
-import pandas as pd
+import csv
+import tkinter as tk
+from tkinter import *
 from cryptography.fernet import Fernet
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.backends import default_backend
@@ -68,9 +68,32 @@ def main():
 
 
 def Page1():
+    global usNaEn, usPaEn
     # Getting username and pass.
     usNaEn = userNameEntry.get()
     usPaEn = userPassEntry.get()
+
+
+    # Making essential files.
+    if not os.path.isdir('Cyfrin'):
+        os.mkdir('Cyfrin')
+    os.chdir('Cyfrin')
+    
+    ########### Usernames and password file
+    # if not os.path.isfile('Username.csv'):
+    #     f = open('username.csv','w')
+    #     writer=csv.writer(f)
+    #     writer.writerow(['Username', 'Password'])
+    #     f.close()
+    #######################################
+
+    # Individual files.
+    if not os.path.isfile(usNaEn+'.csv'):
+        f = open(usNaEn+'.csv','w')
+        writer=csv.writer(f)
+        writer.writerow(['Web Link', 'Password'])
+        f.close()
+
     
     # checking username and pass
     if (usNaEn == 'b' and usPaEn == '1'):
@@ -95,17 +118,6 @@ def Page1():
     # os.chdir(usNaEn)
     # print(os.getcwd())
     # Main folder
-    if not os.path.isdir('Cyfrin'):
-        os.mkdir('Cyfrin')
-    os.chdir('Cyfrin')
-    # Usernames and password file
-    if not os.path.isfile('Username.csv'):
-        f = open('username.csv','w')
-        f.close()
-    
-    if not os.path.isfile(usNaEn+'.csv'):
-        f = open(usNaEn+'.csv','w')
-        f.close()
 
 
 def addPass():
@@ -131,16 +143,21 @@ def addPass():
 
 
 
-
-
 def addpsButton():
     # Encrypting
     webLink = addNameEntry.get()
     webPassword = addPassEntry.get()
     secPass = secretPassEntry.get()
 
-    encWebLink = encrypt(webLink, secPass)
+    
     encWebPassword = encrypt(webPassword, secPass)
+    
+    # Now we have the password and file now let's save it.
+    # os.chdir('Cyfrin')
+    # print(os.getcwd())
+    with open(usNaEn+'.csv','a') as file:
+        writer = csv.writer(file)
+        writer.writerow([webLink, encWebPassword])
     # print(encWebLink,"\t",encWebPassword)
     
     # print(decrypt(encWebLink,secPass),"\t",decrypt(encWebPassword,secPass))
@@ -191,24 +208,12 @@ def quitWindow():
     window.destroy()
 
 def getPass():
-    pass
-    # os.chdir("C:")
-    # if not os.path.isfile('cyfrin.csv'):
-    #     df=pd.DataFrame(columns=["Web Link", "Passwords"])
-    #     df.to_csv('cyfrin.csv', index=False)
-    # else:
-    #     df=pd.read_csv('cyfrin.csv')
-    #     print(df.head())
-            # writer = csv.writer(file)
-            # field = ["name", "age", "country"]
-            
-            # writer.writerow(field)
-            # writer.writerow(["Oladele Damilola", "40", "Nigeria"])
-            # writer.writerow(["Alina Hricko", "23", "Ukraine"])
-            # writer.writerow(["Isabel Walter", "50", "United Kingdom"])
-
-
-
+    with open(usNaEn+'.csv','r') as file:
+        reader = csv.DictReader(file)
+        values=[]
+        for row in reader:
+            value = row['Password']
+            values.append(value)
 
 
 
